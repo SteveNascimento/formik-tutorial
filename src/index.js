@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Formik } from "formik";
+import { Formik, Field, Form, ErrorMessage } from "formik";
 import "./styles.css";
 import * as Yup from 'yup'
 
@@ -46,54 +46,30 @@ const SignupForm = () => {
                     .required('Campo Obrigatório!'),
                 email: Yup.string().email('Endereço de Email Inválido').required('Campo Obrigatório!'),
             })}
-            onSubmit= {values => {
-                alert(JSON.stringify(values, null, 2));
+            onSubmit={(values, { setSubmitting }) => {
+                setTimeout(() => {
+                  alert(JSON.stringify(values, null, 2));
+                  setSubmitting(false);
+                }, 400);
             }}
         >
-            {formik => 
-                <form onSubmit={formik.handleSubmit}>
-                    <label htmlFor="email">Email Address</label>
-                    <input
-                        /* id="email"
-                        name="email"
-                        type="email"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.email} */
-                        id="email"
-                        type="email"
-                        {...formik.getFieldProps('email')}
-                    />
-                    {formik.errors.email && formik.touched.email ? <div>{formik.errors.email}</div> : null}
-                    <label htmlFor="firstName"> First Name </label>
-                    <input
-                        /* id="firstName"
-                        name="firstName"
-                        type="text"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.firstName} */
-                        id="firstName"
-                        type="text"
-                        {...formik.getFieldProps('firstName')}
-                    />
-                    {formik.errors.firstName && formik.touched.firstName ? <div>{formik.errors.firstName}</div> : null}
-                    <label htmlFor="lastName"> Last Name </label>
-                    <input
-                        /* id="lastName"
-                        name="lastName"
-                        type="text"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.lastName} */
-                        id="lastName"
-                        type="text"
-                        {...formik.getFieldProps('lastName')}
-                    />
-                    {formik.errors.lastName && formik.touched.lastName ? <div>{formik.errors.lastName}</div> : null}
-                    <button type="submit">Submit</button>
-                </form>
-            }
+            
+            <Form>
+                <label htmlFor="firstName">First Name</label>
+                <Field name="firstName" type="text" />
+                <ErrorMessage name="firstName" />
+        
+                <label htmlFor="lastName">Last Name</label>
+                <Field name="lastName" type="text" />
+                <ErrorMessage name="lastName" />
+        
+                <label htmlFor="email">Email Address</label>
+                <Field name="email" type="email" />
+                <ErrorMessage name="email" />
+        
+                <button type="submit">Submit</button>
+            </Form>
+            
         </Formik>
     )
 };
